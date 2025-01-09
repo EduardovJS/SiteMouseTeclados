@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ProdutoViewModel>
+
+<h2 class="text-center mb-5">Lista de Produtos</h2>
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col">
+            <a class="btn btn-primary" asp-controller="Produtos" asp-action="Create">Novo Produto</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var produto in Model)
+        {
+            <div class="col-md-4 mb-1">
+                <div class="card h-100">
+                    <!-- Imagem do Produto -->
+                    <img src="/img/@produto.ImageFileName" class="card-img-top" alt="Imagem do produto" style="width: 100%">
+
+                    <div class="card-body">
+                        <!-- Nome do Produto -->
+                        <h5 class="card-title">@produto.Nome</h5>
+
+                        <!-- Resumo do Produto -->
+                        <p class="card-text">@produto.Resumo</p>
+
+                        <!-- Categoria do Produto -->
+                        <p class="card-text"><strong>Categoria:</strong> @produto.Categoria</p>
+
+                        <!-- Valor do Produto -->
+                        <p class="card-text"><strong>Valor:</strong> R$ @produto.Valor</p>
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <!-- Ações -->
+                        <a class="btn btn-primary btn-sm" asp-controller="Produtos" asp-action="Edit" asp-route-id="@produto.ProdutoId">Editar</a>
+                        <a class="btn btn-danger btn-sm" asp-controller="Produtos" asp-action="Delete" asp-route-id="@produto.ProdutoId">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

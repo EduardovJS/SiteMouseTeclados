@@ -17,10 +17,12 @@ public class ProdutosController : Controller
 
         var produtoViewModels = produtos.Select(p=> new ProdutoViewModel
         {
+            ProdutoId = p.Id,
             Nome = p.Nome,
             Resumo = p.Resumo,
             Categoria = p.Categoria,
             Valor = p.Valor,
+            ImageFileName = p.ImageFileName,
         }).ToList();
 
         return View(produtoViewModels);
