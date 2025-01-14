@@ -1,41 +1,45 @@
-﻿@model ProdutoViewModel
-
+﻿    @model ProdutoViewModel
 <div class="container mt-5">
     <h1 class="text-center mb-5">Cadastrar Produto</h1>
-    <form asp-controller="Produtos" asp-action="NovoProduto" method="post">
+    <form asp-controller="Produtos" asp-action="NovoProduto" method="post" enctype="multipart/form-data">
         <!-- Nome -->
         <div class="mb-3">
             <label asp-for="Nome" class="form-label">Nome</label>
-            <input asp-for="Nome" class="form-control" placeholder="Digite o nome do produto" required>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
         </div>
 
         <!-- Resumo -->
         <div class="mb-3">
             <label asp-for="Resumo" class="form-label">Resumo</label>
-            <textarea asp-for="Resumo" class="form-control" rows="5" placeholder="Digite um resumo do produto" required></textarea>
+            <textarea asp-for="Resumo" class="form-control"></textarea>
+            <span asp-validation-for="Resumo" class="text-danger"></span>
         </div>
 
         <!-- Categoria -->
         <div class="mb-3">
             <label asp-for="Categoria" class="form-label">Categoria</label>
-            <select asp-for="Categoria" class="form-select" required>
-                <option value="" disabled selected>Selecione uma categoria</option>
-                <option value="1">Mouse</option>
-                <option value="2">Teclado</option>
+            <select asp-for="Categoria" class="form-select">
+                <option value="">Selecione uma categoria</option>
+                <option value="Mouse">Mouse</option>
+                <option value="Teclado">Teclado</option>
             </select>
+            <span asp-validation-for="Categoria" class="text-danger"></span>
         </div>
 
         <!-- Valor -->
         <div class="mb-3">
             <label asp-for="Valor" class="form-label">Valor</label>
-            <input asp-for="Valor" class="form-control" placeholder="Digite o valor do produto" required>
+            <input asp-for="Valor" class="form-control" />
+            <span asp-validation-for="Valor" class="text-danger"></span>
         </div>
 
-        <!-- Imagem -->
+        <!-- Upload de Imagem -->
         <div class="mb-3">
-            <label asp-for="ImageFileName" class="form-label">Nome do Arquivo da Imagem</label>
-            <input asp-for="ImageFileName" class="form-control" placeholder="Ex.: imagem.jpg">
+            <label ="2" class="form-label">Upload de Imagem</label>
+            <input type="file" class="form-control" id="image" name="image" />
         </div>
+
 
         <!-- Botões -->
         <div class="d-flex justify-content-between">
@@ -44,3 +48,10 @@
         </div>
     </form>
 </div>
+
+
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}

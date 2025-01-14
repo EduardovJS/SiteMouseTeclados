@@ -34,32 +34,54 @@ public class ProdutosController : Controller
         return View();
     }
     [HttpPost]
-    public async Task<IActionResult> NovoProduto(ProdutoViewModel model)
+    public IActionResult NovoProduto(ProdutoViewModel model, IFormFile image)
     {
-        if (ModelState.IsValid)
+        // Verifica se o arquivo foi enviado
+        if (image != null && image.Length > 0)
         {
-            // Mapear o ViewModel para a entidade Produto
-            var produto = new Produto
+            var fileName = Path.GetFileName(image.FileName); // Extrai o nome do arquivo
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Produto", fileName);
+
+         
+            using (var stream = new FileStream(path, FileMode.Create))
             {
-                Nome = model.Nome,
-                Resumo = model.Resumo,
-                Categoria = model.Categoria,
-                Valor = model.Valor,
-                ImageFileName = model.ImageFileName // Salvar o nome do arquivo como texto
-            };
+                image.CopyTo(stream);
+            }
 
-            // Salvar no banco de dados
-            _context.Add(produto);
-            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            model.ImageFileName = path;
+
+            
+
+        }
+        else
+        {
+            // Se não houver imagem, você pode atribuir um valor padrão ou lançar um erro
+            ModelState.AddModelError("image", "A imagem é obrigatória.");
+            return View(model);
         }
 
-        return View(model);
+        // Verifica se o modelo é válido antes de salvar no banco
+        if (!ModelState.IsValid)
+        {
+            return View(model); // Retorna para a view com os erros de validação
+        }
+
+        var produto = new Produto
+        {
+            Nome = model.Nome,
+            Resumo = model.Resumo,
+            Categoria = model.Categoria,
+            Valor = model.Valor,
+            ImageFileName = model.ImageFileName, // Salva o nome do arquivo da imagem (relativo)
+                                                 // ImageUrl = model.ImageUrl, // Se você for armazenar a URL completa, descomente esta linha
+        };
+
+        _context.Produtos.Add(produto);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index"); // Redireciona para a página inicial após salvar
     }
-
-
-
 
 
 

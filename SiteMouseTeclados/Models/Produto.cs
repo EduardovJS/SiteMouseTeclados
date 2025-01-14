@@ -19,9 +19,6 @@ namespace SiteMouseTeclados.Models
         [Required(ErrorMessage = "O valor do produto é obrigatório")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Valor { get; set; }
-
-        [MaxLength(100)]
         public string ImageFileName { get; set; }   
-
     }
 }
