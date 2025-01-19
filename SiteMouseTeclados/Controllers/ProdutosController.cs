@@ -79,10 +79,60 @@ public class ProdutosController : Controller
         return RedirectToAction("Index");
 
     }
-
-    public IActionResult EditarProduto()
+    public IActionResult EditarProduto(int id)
     {
-        return View();
+        var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
+
+
+        if (produto == null)
+        {
+            return NotFound();
+        }
+
+        var model = new ProdutoViewModel
+        {
+            Nome = produto.Nome,
+            Resumo = produto.Resumo,
+            Categoria = produto.Categoria,
+            Valor = produto.Valor,
+            ImageFileName = produto.ImageFileName
+        };
+        return View(model);
+    }
+    [HttpPost]
+    public IActionResult EditarProduto(int id, ProdutoViewModel model)
+    {
+    
+        var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
+
+        if (produto == null)
+        {
+            return NotFound();  
+        }
+
+        produto.Nome = model.Nome;
+        produto.Resumo = model.Resumo;
+        produto.Categoria = model.Categoria;
+        produto.Valor = model.Valor;
+
+
+        var fileName = Path.GetFileName(model.Image.FileName); // Extrai o nome do arquivo
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", fileName);
+
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            model.Image.CopyTo(stream);
+        }
+
+
+        produto.ImageFileName = fileName;
+
+
+        _context.Produtos.Update(produto);
+        _context.SaveChanges(); 
+
+        return RedirectToAction("Index");
     }
 
 

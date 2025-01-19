@@ -1,0 +1,65 @@
+﻿@model ProdutoViewModel
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Editar Produto</h1>
+    <form asp-action="EditarProduto" method="post" enctype="multipart/form-data">
+        <!-- Nome -->
+        <div class="mb-3">
+            <label asp-for="Nome" class="form-label">Nome</label>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <!-- Resumo -->
+        <div class="mb-3">
+            <label asp-for="Resumo" class="form-label">Resumo</label>
+            <textarea asp-for="Resumo" class="form-control"></textarea>
+            <span asp-validation-for="Resumo" class="text-danger"></span>
+        </div>
+
+        <!-- Categoria -->
+        <div class="mb-3">
+            <label asp-for="Categoria" class="form-label">Categoria</label>
+            <select asp-for="Categoria" class="form-select">
+                <option value="Mouse">Mouse</option>
+                <option value="Teclado">Teclado</option>
+            </select>
+            <span asp-validation-for="Categoria" class="text-danger"></span>
+        </div>
+
+        <!-- Valor -->
+        <div class="mb-3">
+            <label asp-for="Valor" class="form-label">Valor</label>
+            <input asp-for="Valor" class="form-control" />
+            <span asp-validation-for="Valor" class="text-danger"></span>
+        </div>
+
+        <!-- Upload de Imagem -->
+        <div class="mb-3">
+            <label asp-for="Image" class="form-label">Atualizar Imagem</label>
+            <input asp-for="Image" type="file" class="form-control" />
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </div>
+
+        <!-- Imagem Atual -->
+        @if (Model.ImageFileName != null)
+        {
+            <div class="mb-3">
+                <label class="form-label">Imagem Atual:</label>
+                <img src="~/img/Produto/@Model.ImageFileName" alt="Imagem Atual" class="img-thumbnail" width="150" />
+            </div>
+        }
+
+        <!-- Botões -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate.unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}
