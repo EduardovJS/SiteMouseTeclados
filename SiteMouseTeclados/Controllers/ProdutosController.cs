@@ -34,38 +34,20 @@ public class ProdutosController : Controller
         return View();
     }
     [HttpPost]
-    public IActionResult NovoProduto(ProdutoViewModel model, IFormFile image)
+    public IActionResult NovoProduto(ProdutoViewModel model)
     {
-        // Verifica se o arquivo foi enviado
-        if (image != null && image.Length > 0)
+
+        var fileName = Path.GetFileName(model.Image.FileName); // Extrai o nome do arquivo
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", fileName);
+
+
+        using (var stream = new FileStream(path, FileMode.Create))
         {
-            var fileName = Path.GetFileName(image.FileName); // Extrai o nome do arquivo
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "Produto", fileName);
-
-         
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                image.CopyTo(stream);
-            }
-
-
-            model.ImageFileName = path;
-
-            
-
-        }
-        else
-        {
-            // Se não houver imagem, você pode atribuir um valor padrão ou lançar um erro
-            ModelState.AddModelError("image", "A imagem é obrigatória.");
-            return View(model);
+            model.Image.CopyTo(stream);
         }
 
-        // Verifica se o modelo é válido antes de salvar no banco
-        if (!ModelState.IsValid)
-        {
-            return View(model); // Retorna para a view com os erros de validação
-        }
+
+        model.ImageFileName = fileName;
 
         var produto = new Produto
         {
@@ -82,7 +64,26 @@ public class ProdutosController : Controller
 
         return RedirectToAction("Index"); // Redireciona para a página inicial após salvar
     }
+    public IActionResult Delete(int id)
+    {
+        var produto = _context.Produtos.FirstOrDefault(p => p.Id == id);
 
+        if (produto == null)
+        {
+            return NotFound();
+        }
+
+        _context.Produtos.Remove(produto);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+
+    }
+
+    public IActionResult EditarProduto()
+    {
+        return View();
+    }
 
 
 }

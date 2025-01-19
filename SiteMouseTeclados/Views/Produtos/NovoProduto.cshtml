@@ -36,8 +36,8 @@
 
         <!-- Upload de Imagem -->
         <div class="mb-3">
-            <label ="2" class="form-label">Upload de Imagem</label>
-            <input type="file" class="form-control" id="image" name="image" />
+            <input type="file" class="form-control" asp-for="Image" />
+            <span asp-validation-for="Image" class="text-danger"></span>
         </div>
 
 

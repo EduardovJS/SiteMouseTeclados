@@ -22,7 +22,8 @@ namespace SiteMouseTeclados.ViewModels
         [Required(ErrorMessage = "O valor do produto é obrigatório")]
         [Range(0.01, 9999.99, ErrorMessage = "O valor deve estar entre 0,01 e 9999,99")]
         public decimal Valor { get; set; }
-        public string ImageFileName { get; set; }  
+        public string ImageFileName { get; set; }
+        public IFormFile Image { get; set; }
     }
 
 
